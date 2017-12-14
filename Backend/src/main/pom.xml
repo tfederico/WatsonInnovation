@@ -7,6 +7,18 @@
     <groupId>com.tfederico.pearlBackend</groupId>
     <artifactId>PearlBackend</artifactId>
     <version>1.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -17,7 +29,7 @@
         <dependency>
             <groupId>com.github.tfederico</groupId>
             <artifactId>europeana-client</artifactId>
-            <version>V0.3-beta</version>
+            <version>V0.3.1-beta</version>
         </dependency>
     </dependencies>
 
