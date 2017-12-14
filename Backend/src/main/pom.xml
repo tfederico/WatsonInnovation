@@ -15,9 +15,9 @@
             <version>v2.2-beta</version>
         </dependency>
         <dependency>
-            <groupId>com.github.europeana</groupId>
+            <groupId>com.github.tfederico</groupId>
             <artifactId>europeana-client</artifactId>
-            <version>0.2.01</version>
+            <version>V0.3-beta</version>
         </dependency>
     </dependencies>
 
