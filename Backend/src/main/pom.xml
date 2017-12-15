@@ -29,7 +29,8 @@
         <dependency>
             <groupId>com.github.tfederico</groupId>
             <artifactId>europeana-client</artifactId>
-            <version>V0.3.1-beta</version>
+            <version>V0.3.2-beta</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 

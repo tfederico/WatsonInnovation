@@ -11,7 +11,6 @@ import com.tfederico.pearlBackend.exceptions.UnknownMuseumException;
 import eu.europeana.api.client.exception.EuropeanaApiProblem;
 import eu.europeana.api.client.model.EuropeanaApi2Results;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -20,6 +19,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException, UnknownMuseumException, EuropeanaApiProblem {
 
+        System.out.println("Working Directory = " +
+                System.getProperty("user.dir"));
         IPaintingDbReader paintingDbReader = new PaintingDbReader();
 
         paintingDbReader.openDatabase();

@@ -5,7 +5,6 @@ import eu.europeana.api.client.EuropeanaApi2Client;
 import eu.europeana.api.client.exception.EuropeanaApiProblem;
 import eu.europeana.api.client.model.EuropeanaApi2Results;
 import eu.europeana.api.client.search.query.Api2Query;
-import eu.europeana.api.client.search.query.adv.EuropeanaSearchTerm;
 
 
 import java.io.IOException;

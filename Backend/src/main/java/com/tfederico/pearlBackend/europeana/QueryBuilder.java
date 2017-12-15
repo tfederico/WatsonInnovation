@@ -3,6 +3,7 @@ package com.tfederico.pearlBackend.europeana;
 import com.tfederico.pearlBackend.europeana.contract.IQueryBuilder;
 import eu.europeana.api.client.search.query.Api2Query;
 
+
 public class QueryBuilder implements IQueryBuilder{
 
     private Api2Query query;

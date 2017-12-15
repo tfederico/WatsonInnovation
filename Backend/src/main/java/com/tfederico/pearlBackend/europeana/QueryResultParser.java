@@ -10,7 +10,6 @@ import java.util.List;
 
 public class QueryResultParser implements IQueryResultParser {
 
-    EuropeanaApi2Results results;
     List<EuropeanaApi2Item> items;
 
     public QueryResultParser(EuropeanaApi2Results res){
@@ -18,7 +17,7 @@ public class QueryResultParser implements IQueryResultParser {
     }
 
     public ArrayList<String> getTitles() {
-        ArrayList<String> data = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<>();
         for(EuropeanaApi2Item item : items)
             data.add(item.getTitle().get(0));
         return data;
@@ -61,8 +60,8 @@ public class QueryResultParser implements IQueryResultParser {
 
     public ArrayList<String> getDescriptions() {
         ArrayList<String> data = new ArrayList<String>();
-        for(EuropeanaApi2Item item : items)
-            data.add(item.getDcDescription().get(0));
+        /*for(EuropeanaApi2Item item : items)
+            data.add(item.getDcDescription().get(0));*/
         return data;
     }
 }
