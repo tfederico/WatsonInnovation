@@ -9,12 +9,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
     directory = args.d
     directory = "res/images/"+directory
-    print(directory)
+    #print(directory)
     onlyfiles = [f for f in listdir(directory) if isfile(join(directory, f))]
     removed = 0
     for f in onlyfiles:
         size = os.path.getsize(join(directory, f))
-        if size > 1000000:
+        if size > 5000000 or size < 1000:
             os.remove(join(directory, f))
             removed = removed + 1
     print "Number of file removed: "+str(removed)

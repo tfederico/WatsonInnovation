@@ -7,6 +7,7 @@ import eu.europeana.api.client.model.search.EuropeanaApi2Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class QueryResultParser implements IQueryResultParser {
 
@@ -78,8 +79,11 @@ public class QueryResultParser implements IQueryResultParser {
         for(EuropeanaApi2Item item : items)
             if(item.getDcDescription() == null)
                 data.add("");
-            else
-                data.add(item.getDcDescription().get(0));
+            else //todo susbstitue hard-coded indexing with detecting language
+                if(Objects.equals(item.getDataProvider().get(0), "Mauritshuis"))
+                    data.add(item.getDcDescription().get(1).replaceAll("\\<[^>]*>",""));//skipping Dutch description
+                else
+                    data.add(item.getDcDescription().get(0).replaceAll("\\<[^>]*>",""));
         return data;
     }
 }

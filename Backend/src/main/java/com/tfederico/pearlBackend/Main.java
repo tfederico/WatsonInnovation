@@ -45,7 +45,6 @@ public class Main {
         ArrayList<String> descriptions = new ArrayList<>();
         ArrayList<String> creator = new ArrayList<>();
         ArrayList<String> thumbnailsURL = new ArrayList<>();
-        ArrayList<String> country = new ArrayList<>();
 
         IWebCrawler webCrawler = new WebCralwer();
 
@@ -71,12 +70,11 @@ public class Main {
             descriptions.add(resultParser.getDescriptions().get(0));
             creator.add(resultParser.getCreators().get(0));
             thumbnailsURL.add(resultParser.getThumbnailsURLs().get(0));
-            country.add(resultParser.getCreators().get(0));
 
-            /*ArrayList<String> secondaryKeywords = new ArrayList<>();
+            ArrayList<String> secondaryKeywords = new ArrayList<>();
             secondaryKeywords.addAll(Arrays.asList(painters.get(i).split(" ")));
 
-            InputStream d = webCrawler.downloadImages(50, paintings.get(i), secondaryKeywords);
+            InputStream d = webCrawler.downloadImages(30, paintings.get(i), secondaryKeywords);
             BufferedReader br = new BufferedReader(new InputStreamReader(d));
             String line;
 
@@ -84,18 +82,27 @@ public class Main {
                 System.out.println(line);
             }
 
-            d = webCrawler.filterImages(new String(paintings.get(i)));
+            d = webCrawler.filterImages(paintings.get(i));
             br = new BufferedReader(new InputStreamReader(d));
 
             while((line = br.readLine()) != null){
                 System.out.println(line);
-            }*/
+            }
+
+            d = webCrawler.resizeImages(paintings.get(i));
+            br = new BufferedReader(new InputStreamReader(d));
+
+            while((line = br.readLine()) != null){
+                System.out.println(line);
+            }
         }
 
 
-        trainModels(paintings);
+        //trainModels(paintings);
 
+        //todo NLU part
 
+        saveResultsInDB(paintings, painters, descriptions, thumbnailsURL, museums);
 
 
         System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
@@ -142,7 +149,7 @@ public class Main {
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            for(int i = 0; i < 15; i++)
+            for(int i = 0; i < 20 && i < results.size(); i++)
                 stringBuilder.append(results.get(i)).append(" ");
 
             negativeSamplesPerPaint.put(path, stringBuilder.toString());
@@ -204,6 +211,39 @@ public class Main {
 
         zos.closeEntry();
         fis.close();
+    }
+
+    private static void saveResultsInDB(ArrayList<String> paintings, ArrayList<String> creator,
+                                        ArrayList<String> descriptions, ArrayList<String> thumbnailsURL,
+                                        ArrayList<String> museums) throws FileNotFoundException {
+
+        //todo append keywords
+        String divider = "\t";
+        String header = "id"+divider+"painting"+divider+"author"+divider+"description"+divider+
+                "thumbnailURL"+divider+"museum\n";
+        PrintWriter pw = new PrintWriter(new File("res/smartdb.csv"));
+        StringBuilder sb = new StringBuilder();
+        sb.append(header);
+
+
+        for(int i = 0; i<paintings.size(); i++){
+            sb.append(paintings.get(i).replace(" ","_").replace(",",""));
+            sb.append(divider);
+            sb.append(paintings.get(i));
+            sb.append(divider);
+            sb.append(creator.get(i));
+            sb.append(divider);
+            sb.append(descriptions.get(i).replace("\n",""));
+            sb.append(divider);
+            sb.append(thumbnailsURL.get(i));
+            sb.append(divider);
+            sb.append(museums.get(i));
+            sb.append("\n");
+        }
+
+        pw.write(sb.toString());
+        pw.close();
+        System.out.println("done!");
     }
 }
 
