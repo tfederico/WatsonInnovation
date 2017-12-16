@@ -1,10 +1,11 @@
 package com.tfederico.pearlBackend.europeana.contract;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IQueryResultParser {
 
-    ArrayList<String> getTitles();
+    ArrayList<List<String>> getTitles();
 
     ArrayList<String> getEuropeanaURLs();
 

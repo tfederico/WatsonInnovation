@@ -3,25 +3,29 @@ package com.tfederico.pearlBackend.webCrawler;
 import com.tfederico.pearlBackend.webCrawler.contract.IImageDownloader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ImageDownloader implements IImageDownloader {
 
     private static String scriptName = "download.py";
 
-    public String downloadImages(String pyPath, int imagesNumber, String paintingName,
-                               ArrayList<String> keywords) throws IOException {
+    public InputStream downloadImages(int imagesNumber, String paintingName,
+                                      ArrayList<String> keywords) throws IOException {
 
-        String keys = "";
+        StringBuilder keys = new StringBuilder();
 
         for(String k : keywords){
-            keys += k + " ";
+            keys.append(k).append("_");
         }
 
-        Process p = Runtime.getRuntime().exec("python " + pyPath + scriptName
-                + " --n " + imagesNumber + " --p \"" + paintingName + "\" --a \""+ keys +"\"");
+        String k = keys.substring(keys.length()-1);
 
-        return p.getOutputStream().toString();
+        Process p = Runtime.getRuntime().exec("python " + scriptName
+                + " --n " + imagesNumber + " --p " + paintingName.replace(' ','_')
+                + " --a "+k);
+
+        return p.getInputStream();
 
     }
 }

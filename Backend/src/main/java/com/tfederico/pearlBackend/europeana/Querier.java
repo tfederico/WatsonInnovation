@@ -12,11 +12,9 @@ import java.io.IOException;
 public class Querier implements IQuerier {
 
     EuropeanaApi2Client europeanaClient;
-    private static String europeanaSearchUri = "http://www.europeana.eu/api/v2/";
-    private static String apiKey = "84vbVaEWb";
 
     public Querier(){
-        europeanaClient = new EuropeanaApi2Client(europeanaSearchUri,apiKey);
+        europeanaClient = new EuropeanaApi2Client();
     }
 
     public EuropeanaApi2Results search(Api2Query query, int limit, int start) throws IOException, EuropeanaApiProblem {

@@ -20,4 +20,6 @@ public interface IQueryBuilder {
     void setTitle(String title);
 
     void setType(String type);
+
+    void setLanguage(String language);
 }

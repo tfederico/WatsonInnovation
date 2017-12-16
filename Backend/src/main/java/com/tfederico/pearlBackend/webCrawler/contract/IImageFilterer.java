@@ -1,7 +1,9 @@
 package com.tfederico.pearlBackend.webCrawler.contract;
 
+
 import java.io.IOException;
+import java.io.InputStream;
 
 public interface IImageFilterer {
-    public String filterImages(String pyPath, String dirName) throws IOException;
+    InputStream filterImages(String dirName) throws IOException;
 }

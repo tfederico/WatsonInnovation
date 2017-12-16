@@ -1,15 +1,17 @@
 package com.tfederico.pearlBackend.webCrawler;
 
 import com.tfederico.pearlBackend.webCrawler.contract.IImageFilterer;
+import jdk.internal.util.xml.impl.Input;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageFilterer implements IImageFilterer{
 
     private static String scriptName = "clean.py";
 
-    public String filterImages(String pyPath, String dirName) throws IOException {
-        Process p = Runtime.getRuntime().exec("python "+pyPath+scriptName+" --d "+dirName);
-        return p.getOutputStream().toString();
+    public InputStream filterImages(String dirName) throws IOException {
+        Process p = Runtime.getRuntime().exec("python "+scriptName+" --d "+dirName.replace(' ','_'));
+        return p.getInputStream();
     }
 }

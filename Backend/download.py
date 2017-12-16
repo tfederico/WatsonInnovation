@@ -15,7 +15,7 @@ import argparse
 from urllib2 import Request,urlopen
 from urllib2 import URLError, HTTPError
 
-pause = 0.05
+pause = 0
 
 #Downloading entire Web Document (Raw Page Content)
 def download_page(url):
@@ -76,16 +76,16 @@ def _images_get_all_items(page):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Downloading images based on painting and author names.')
-    parser.add_argument('-number', '--n', help="Number of painting to download", required=True)
-    parser.add_argument('-paint', '--p', help="Painting name", required=True)
-    parser.add_argument('-author', '--a', help="Author info", required=True)
+    parser.add_argument('-number', '--n', help="Number of painting to download", required=True, type=int)
+    parser.add_argument('-paint', '--p', help="Painting name", required=True,type=str)
+    parser.add_argument('-author', '--a', help="Author info", required=True,type=str)
     
 
     args = parser.parse_args()
 
-    paint = args.p
-    auth = args.a.split(' ')
-    n_max = int(args.n)
+    paint = args.p.replace("_"," ") #Work-around for Java issues
+    auth = args.a.split('_')
+    n_max = args.n
 
     #This list is used to search keywords. You can edit this list to search for google images of your choice. 
     #You can simply add and remove elements of the list.
@@ -115,7 +115,7 @@ if __name__ == '__main__':
         
         #make a search keyword  directory
         try:
-            os.makedirs("..res/images/"+search_keywords.replace(' ','_'))
+            os.makedirs("res/images/"+search_keywords.replace(' ','_'))
         except OSError as e:
             if e.errno != 17:
                 raise   
@@ -173,9 +173,9 @@ if __name__ == '__main__':
                     response.close()
                     continue     
  
-		ext = ext.strip()
-                output_file = open("../res/images/"+search_keywords.replace(' ','_')+"/"+str(l+1)+"."+ext,'wb')
-		
+                ext = ext.strip()
+                output_file = open("res/images/"+search_keywords.replace(' ','_')+"/"+str(l+1)+"."+ext,'wb')
+                
 
                 data = response.read()
                 

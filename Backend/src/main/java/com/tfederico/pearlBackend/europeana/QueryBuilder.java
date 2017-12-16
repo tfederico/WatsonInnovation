@@ -12,31 +12,43 @@ public class QueryBuilder implements IQueryBuilder{
         query = new Api2Query();
     }
 
+    @Override
     public Api2Query getQuery() {
         return query;
     }
 
+    @Override
     public void setCollectionName(String collectionName) {
-        query.setCreator(collectionName);
+        query.setCollectionName(collectionName);
     }
 
+    @Override
     public void setCountry(String creator) {
-        query.setCreator(creator);
+        query.setCountry(creator);
     }
 
+    @Override
     public void setCreator(String creator) {
         query.setCreator(creator);
     }
 
+    @Override
     public void setDataProvider(String dataProvider) {
         query.setDataProvider(dataProvider);
     }
 
+    @Override
     public void setTitle(String title) {
         query.setTitle(title);
     }
 
+    @Override
     public void setType(String type) {
         query.setType(type);
+    }
+
+    @Override
+    public void setLanguage(String language) {
+        query.setLanguage(language);
     }
 }

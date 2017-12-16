@@ -16,52 +16,70 @@ public class QueryResultParser implements IQueryResultParser {
         items = res.getAllItems();
     }
 
-    public ArrayList<String> getTitles() {
-        ArrayList<String> data = new ArrayList<>();
+    public ArrayList<List<String>> getTitles() {
+        ArrayList<List<String>> data = new ArrayList<>();
         for(EuropeanaApi2Item item : items)
-            data.add(item.getTitle().get(0));
+            data.add(item.getTitle());
         return data;
     }
 
     public ArrayList<String> getEuropeanaURLs() {
         ArrayList<String> data = new ArrayList<String>();
         for(EuropeanaApi2Item item : items)
-            data.add(item.getObjectURL());
+            if(item.getDcDescription() == null)
+                data.add("");
+            else
+                data.add(item.getObjectURL());
         return data;
     }
 
     public ArrayList<String> getTypes() {
         ArrayList<String> data = new ArrayList<String>();
         for(EuropeanaApi2Item item : items)
-            data.add(item.getType());
+            if(item.getDcDescription() == null)
+                data.add("");
+            else
+                data.add(item.getType());
         return data;
     }
 
     public ArrayList<String> getCreators() {
         ArrayList<String> data = new ArrayList<String>();
         for(EuropeanaApi2Item item : items)
-            data.add(item.getDcCreator().get(0));
+            if(item.getDcDescription() == null)
+                data.add("");
+            else
+                data.add(item.getDcCreator().get(0));
         return data;
     }
 
     public ArrayList<String> getThumbnailsURLs() {
         ArrayList<String> data = new ArrayList<String>();
         for(EuropeanaApi2Item item : items)
-            data.add(item.getEdmPreview().get(0));
+            if(item.getDcDescription() == null)
+                data.add("");
+            else
+                data.add(item.getEdmPreview().get(0));
         return data;
     }
 
     public ArrayList<String> getDataProviders() {
         ArrayList<String> data = new ArrayList<String>();
         for(EuropeanaApi2Item item : items)
-            data.add(item.getDataProvider().get(0));
+            if(item.getDcDescription() == null)
+                data.add("");
+            else
+                data.add(item.getDataProvider().get(0));
         return data;
     }
 
     public ArrayList<String> getDescriptions() {
-        ArrayList<String> data = new ArrayList<String>();
-        /*for(EuropeanaApi2Item item : items)
-            data.add(item.getDcDescription().get(0));*/
+        ArrayList<String> data = new ArrayList<>();
+        for(EuropeanaApi2Item item : items)
+            if(item.getDcDescription() == null)
+                data.add("");
+            else
+                data.add(item.getDcDescription().get(0));
         return data;
     }
 }
