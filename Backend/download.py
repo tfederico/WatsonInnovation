@@ -182,7 +182,7 @@ if __name__ == '__main__':
                 output_file.write(data)
                 response.close()
 
-                print("completed ====> "+str(k+1))
+                #print("completed ====> "+str(k+1))
 
                 k=k+1
                 l=l+1
