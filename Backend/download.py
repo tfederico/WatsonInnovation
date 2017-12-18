@@ -164,15 +164,17 @@ if __name__ == '__main__':
                 
                 ext = ""
                 for item in str(response.info()).split('\n'):
-                    if "Content-Type" in item and "image" in item and "webp" not in item and "gif" not in item:
+                    if "Content-Type" in item and "image" in item and "webp" not in item and "gif" not in item and "bmp" not in item:
                         #print item
                         ext = item.split("/")[1]
 
                 if ext == "":
                     k=k+1
                     response.close()
-                    continue     
- 
+                    continue    
+
+                if "jpeg" in ext or "JPEG" in ext: 
+                    ext = "jpg"
                 ext = ext.strip()
                 output_file = open("res/images/"+search_keywords.replace(' ','_')+"/"+str(l+1)+"."+ext,'wb')
                 

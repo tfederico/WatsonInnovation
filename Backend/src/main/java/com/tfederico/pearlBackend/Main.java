@@ -1,6 +1,12 @@
 package com.tfederico.pearlBackend;
 
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.KeywordsResult;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Classifier;
+import com.tfederico.libris.image.ibm.contract.IIBMCustomClassifierUtility;
+import com.tfederico.libris.image.ibm.visualRecognition.IBMCustomClassifierUtility;
+import com.tfederico.libris.text.naturalLanguageUnderstanding.contract.IIBMNaturalLanguageUnderstandingUtility;
+import com.tfederico.libris.text.naturalLanguageUnderstanding.ibm.IBMNaturalLanguageUnderstandingUtility;
 import com.tfederico.pearlBackend.db.PaintingDbReader;
 import com.tfederico.pearlBackend.db.contract.IPaintingDbReader;
 import com.tfederico.pearlBackend.europeana.Querier;
@@ -13,8 +19,7 @@ import com.tfederico.pearlBackend.webCrawler.WebCralwer;
 import com.tfederico.pearlBackend.webCrawler.contract.IWebCrawler;
 import eu.europeana.api.client.exception.EuropeanaApiProblem;
 import eu.europeana.api.client.model.EuropeanaApi2Results;
-import it.polpetta.libris.image.ibm.contract.IIBMCustomClassifierUtility;
-import it.polpetta.libris.image.ibm.visualRecognition.IBMCustomClassifierUtility;
+
 
 import java.io.*;
 import java.util.*;
@@ -26,6 +31,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, UnknownMuseumException, EuropeanaApiProblem {
 
+        setCredentials("credentials.csv");
         long start = System.currentTimeMillis();
 
         IPaintingDbReader paintingDbReader = new PaintingDbReader();
@@ -36,11 +42,7 @@ public class Main {
         ArrayList<String> painters = paintingDbReader.getAuthors();
         ArrayList<String> museums = paintingDbReader.getMuseums();
 
-        IQuerier querier;
         IQueryBuilder queryBuilder = new QueryBuilder();
-        QueryResultParser resultParser;
-
-        EuropeanaApi2Results results;
 
         ArrayList<String> descriptions = new ArrayList<>();
         ArrayList<String> creator = new ArrayList<>();
@@ -48,82 +50,121 @@ public class Main {
 
         IWebCrawler webCrawler = new WebCralwer();
 
-
-
         for(int i = 0; i < paintings.size(); i++){
-
-            queryBuilder.createNewQuery();
-            queryBuilder.setTitle(paintings.get(i));
-
-            if(Objects.equals(museums.get(i), "Mauritshuis"))
-                queryBuilder.setCollectionName("2021672_Ag_NL_DigitaleCollectie_Mauritshuis");
-            else if (Objects.equals(museums.get(i), "Rijksmuseum"))
-                queryBuilder.setCollectionName("90402_M_NL_Rijksmuseum");
-            else
-                throw new UnknownMuseumException();
-
-            //queryBuilder.setLanguage("en");
-            querier = new Querier();
-            results = querier.search(queryBuilder.getQuery(),1,0);
-            resultParser = new QueryResultParser(results);
-
-            descriptions.add(resultParser.getDescriptions().get(0));
-            creator.add(resultParser.getCreators().get(0));
-            thumbnailsURL.add(resultParser.getThumbnailsURLs().get(0));
-
-            ArrayList<String> secondaryKeywords = new ArrayList<>();
-            secondaryKeywords.addAll(Arrays.asList(painters.get(i).split(" ")));
-
-            InputStream d = webCrawler.downloadImages(30, paintings.get(i), secondaryKeywords);
-            BufferedReader br = new BufferedReader(new InputStreamReader(d));
-            String line;
-
-            while((line = br.readLine()) != null){
-                System.out.println(line);
-            }
-
-            d = webCrawler.filterImages(paintings.get(i));
-            br = new BufferedReader(new InputStreamReader(d));
-
-            while((line = br.readLine()) != null){
-                System.out.println(line);
-            }
-
-            d = webCrawler.resizeImages(paintings.get(i));
-            br = new BufferedReader(new InputStreamReader(d));
-
-            while((line = br.readLine()) != null){
-                System.out.println(line);
-            }
+            callEuropeana(queryBuilder, museums.get(i), paintings.get(i), descriptions,
+                    creator, thumbnailsURL);
+            //download(webCrawler, painters.get(i), paintings.get(i));
         }
+
 
 
         //trainModels(paintings);
 
-        //todo NLU part
+        IIBMNaturalLanguageUnderstandingUtility nlu = new IBMNaturalLanguageUnderstandingUtility();
+        ArrayList<String> keyword = new ArrayList<>(descriptions.size());
 
-        saveResultsInDB(paintings, painters, descriptions, thumbnailsURL, museums);
+
+        for (String description : descriptions) {
+            List<KeywordsResult> keywordsResultList = nlu.getKeywordsFromText(description);
+            StringBuilder builder = new StringBuilder();
+            Set<String> set = new HashSet<>();
+
+            for (KeywordsResult keywordsResult : keywordsResultList) //remove duplicates
+                set.add(keywordsResult.getText());
+
+            for (String s : set)
+                builder.append(s.toLowerCase()).append(" ");
+
+            int length = builder.toString().length();
+            keyword.add(builder.toString().substring(0, length - 1));
+        }
+        saveResultsInDB(paintings, painters, descriptions, thumbnailsURL, museums, keyword);
 
 
         System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
 
     }
 
+    private static void setCredentials(String path) throws IOException {
+        FileReader f = new FileReader(path);
+
+        String line;
+        BufferedReader br = new BufferedReader(f);
+        ArrayList<String> keys = new ArrayList<>();
+        while ((line = br.readLine()) != null) {
+            // use comma as separator
+            String[] data = line.split(",");
+            keys.add(data[1]);
+        }
+
+        IBMCustomClassifierUtility.setSubscriptionKey(keys.get(0));
+        IBMNaturalLanguageUnderstandingUtility.setUsernameAndPassword(keys.get(1),keys.get(2));
+
+        br.close();
+    }
+
+    private static void callEuropeana(IQueryBuilder queryBuilder, String museum, String painting,
+                                      ArrayList<String> descriptions, ArrayList<String> creator,
+                                      ArrayList<String> thumbnailsURL) throws UnknownMuseumException, IOException, EuropeanaApiProblem {
+        queryBuilder.createNewQuery();
+        queryBuilder.setTitle(painting);
+
+        if(Objects.equals(museum, "Mauritshuis"))
+            queryBuilder.setCollectionName("2021672_Ag_NL_DigitaleCollectie_Mauritshuis");
+        else if (Objects.equals(museum, "Rijksmuseum"))
+            queryBuilder.setCollectionName("90402_M_NL_Rijksmuseum");
+        else
+            throw new UnknownMuseumException();
+
+        QueryResultParser resultParser;
+
+        EuropeanaApi2Results results;
+        IQuerier querier = new Querier();
+        results = querier.search(queryBuilder.getQuery(),1,0);
+        resultParser = new QueryResultParser(results);
+
+        descriptions.add(resultParser.getDescriptions().get(0));
+        creator.add(resultParser.getCreators().get(0));
+        thumbnailsURL.add(resultParser.getThumbnailsURLs().get(0));
+
+
+    }
+
+    private static void download(IWebCrawler webCrawler, String painter, String painting) throws IOException {
+        ArrayList<String> secondaryKeywords = new ArrayList<>();
+        secondaryKeywords.addAll(Arrays.asList(painter.split(" ")));
+
+        InputStream d = webCrawler.downloadImages(30, painting, secondaryKeywords);
+        BufferedReader br = new BufferedReader(new InputStreamReader(d));
+        String line;
+
+        while((line = br.readLine()) != null){
+            System.out.println(line);
+        }
+
+        d = webCrawler.filterImages(painting);
+        br = new BufferedReader(new InputStreamReader(d));
+
+        while((line = br.readLine()) != null){
+            System.out.println(line);
+        }
+
+        d = webCrawler.resizeImages(painting);
+        br = new BufferedReader(new InputStreamReader(d));
+
+        while((line = br.readLine()) != null){
+            System.out.println(line);
+        }
+    }
+
     private static void trainModels(ArrayList<String> paintings) throws IOException {
-        IBMCustomClassifierUtility.setSubscriptionKey("");
-
-
-        ArrayList<String> paintingsDirs = new ArrayList<>();
 
         HashMap<String, String> negativeSamplesPerPaint = new HashMap<>();
-
-
 
         for(String p : paintings){
             long quote = 5000000; //5 MB
 
             String path = "res/images/"+p.replace(' ','_')+"/";
-            paintingsDirs.add(path);
             List<String> results = new ArrayList<>();
 
             FileOutputStream fos = new FileOutputStream(path+p.replace(' ','_')+".zip");
@@ -215,12 +256,11 @@ public class Main {
 
     private static void saveResultsInDB(ArrayList<String> paintings, ArrayList<String> creator,
                                         ArrayList<String> descriptions, ArrayList<String> thumbnailsURL,
-                                        ArrayList<String> museums) throws FileNotFoundException {
+                                        ArrayList<String> museums, ArrayList<String> keywords) throws FileNotFoundException {
 
-        //todo append keywords
         String divider = "\t";
         String header = "id"+divider+"painting"+divider+"author"+divider+"description"+divider+
-                "thumbnailURL"+divider+"museum\n";
+                "thumbnailURL"+divider+"museum"+divider+"keywords\n";
         PrintWriter pw = new PrintWriter(new File("res/smartdb.csv"));
         StringBuilder sb = new StringBuilder();
         sb.append(header);
@@ -238,6 +278,8 @@ public class Main {
             sb.append(thumbnailsURL.get(i));
             sb.append(divider);
             sb.append(museums.get(i));
+            sb.append(divider);
+            sb.append(keywords.get(i));
             sb.append("\n");
         }
 
@@ -245,5 +287,7 @@ public class Main {
         pw.close();
         System.out.println("done!");
     }
+
+
 }
 
