@@ -64,15 +64,15 @@ public class Main {
 
         IDBWriter dbWriter = new DBWriter();
         dbWriter.createSmartDB(paintings, painters, descriptions, thumbnailsURL, museums, keyword);
+        Runtime.getRuntime().exec("python toJSON.py");
 
-        System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
+        //todo create programmatically Discovery service
 
         calculateIntersection("res/smartdb.csv");
 
-        Runtime.getRuntime().exec("python toJSON.py");
-
         IBenchmarker benchmarker = new Benchmarker();
         benchmarker.benchmark("res/benchmark/");
+        System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
 
     }
 
