@@ -7,8 +7,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public interface IWebCrawler {
-    InputStream filterImages(String dirName) throws IOException;
-    InputStream downloadImages(int imagesNumber, String paintingName, ArrayList<String> keywords) throws IOException;
-    InputStream resizeImages(String dirName) throws IOException;
+    void download(String painter, String painting) throws IOException;
 
 }

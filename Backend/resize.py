@@ -23,11 +23,12 @@ if __name__ == '__main__':
         try:
             img = Image.open(directory+"/"+f)
             width, heigth = img.size
-            ratio = min(maxwidth/width,maxheigth/heigth)
-            size = ratio*width, ratio*heigth
-            img.thumbnail(size, Image.ANTIALIAS)
-            img.save(resizedDir+"/"+f)
-            os.rename(resizedDir+"/"+f, directory+"/"+f)
+            ratio = min(maxwidth/float(width),maxheigth/float(heigth))
+            if ratio < 1:
+                size = ratio*width, ratio*heigth
+                img.thumbnail(size, Image.ANTIALIAS)
+                img.save(resizedDir+"/"+f)
+                os.rename(resizedDir+"/"+f, directory+"/"+f)
         except IOError:
             print("cannot create thumbnail for '%s'" % f)
 
