@@ -17,4 +17,4 @@ if __name__ == '__main__':
         if size > 5000000 or size < 1000:
             os.remove(join(directory, f))
             removed = removed + 1
-    print "Number of file removed: "+str(removed)
+    print("Number of file removed: "+str(removed))

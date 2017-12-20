@@ -69,7 +69,7 @@ public class Main {
         System.out.println("################ SMARTDB BUILDING ################");
         IDBWriter dbWriter = new DBWriter();
         dbWriter.createSmartDB(paintings, painters, descriptions, thumbnailsURL, museums, keyword);
-        Runtime.getRuntime().exec("python toJSON.py");
+        Runtime.getRuntime().exec("python3 toJSON.py");
 
         //todo create programmatically Discovery service
 

@@ -21,7 +21,7 @@ public class ImageDownloader implements IImageDownloader {
 
         String k = keys.substring(keys.length()-1);
 
-        Process p = Runtime.getRuntime().exec("python " + scriptName
+        Process p = Runtime.getRuntime().exec("python3 " + scriptName
                 + " --n " + imagesNumber + " --p " + paintingName.replace(' ','_')
                 + " --a "+k);
 

@@ -11,7 +11,7 @@ public class ImageFilterer implements IImageFilterer{
     private static String scriptName = "clean.py";
 
     public InputStream filterImages(String dirName) throws IOException {
-        Process p = Runtime.getRuntime().exec("python "+scriptName+" --d "+dirName.replace(' ','_'));
+        Process p = Runtime.getRuntime().exec("python3 "+scriptName+" --d "+dirName.replace(' ','_'));
         return p.getInputStream();
     }
 }
