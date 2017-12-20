@@ -60,18 +60,18 @@ public class WebCralwer implements IWebCrawler {
         }
 
         d = filterImages(painting);
-        br = new BufferedReader(new InputStreamReader(d));
+        /*br = new BufferedReader(new InputStreamReader(d));
 
         while((line = br.readLine()) != null){
             System.out.println(line);
-        }
+        }*/
 
         d = resizeImages(painting);
-        br = new BufferedReader(new InputStreamReader(d));
+        /*br = new BufferedReader(new InputStreamReader(d));
 
         while((line = br.readLine()) != null){
             System.out.println(line);
-        }
+        }*/
     }
 
     private InputStream filterImages(String dirName) throws IOException {

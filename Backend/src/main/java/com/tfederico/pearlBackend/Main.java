@@ -47,29 +47,36 @@ public class Main {
         IEuropeanaUtility europeanaUtility = new EuropeanaUtility();
         IWebCrawler webCrawler = new WebCralwer();
 
+        System.out.println("################ DOWNLOADING IMAGES ################");
         for(int i = 0; i < paintings.size(); i++){
+            System.out.println("########### PAINTING "+i+"/"+paintings.size()+" ##########");
             europeanaUtility.callEuropeana(museums.get(i), paintings.get(i), descriptions,
                     creator, thumbnailsURL);
             webCrawler.download(painters.get(i), paintings.get(i));
         }
 
+        System.out.println("################ MODELS TRAINING ################");
         IModelTrainer modelTrainer = new ModelTrainer();
         modelTrainer.trainModels(paintings);
 
         ArrayList<String> keyword;
 
+        System.out.println("################ EXTRACTING KEYWORDS ################");
         INLUUtility nluUtility = new NLUUtility();
 
         keyword = nluUtility.getKeywordsFromTexts(descriptions);
 
+        System.out.println("################ SMARTDB BUILDING ################");
         IDBWriter dbWriter = new DBWriter();
         dbWriter.createSmartDB(paintings, painters, descriptions, thumbnailsURL, museums, keyword);
         Runtime.getRuntime().exec("python toJSON.py");
 
         //todo create programmatically Discovery service
 
+        System.out.println("################ CALCULATING SIMILARITY ################");
         calculateIntersection("res/smartdb.csv");
 
+        System.out.println("################ BENCHMARKING ################");
         IBenchmarker benchmarker = new Benchmarker();
         benchmarker.benchmark("res/benchmark/");
         System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
@@ -124,11 +131,11 @@ public class Main {
         Integer[][] matrix = new Integer[keys.size()][keys.size()];
         for(int j = 0; j < keys.size(); j++){
             Set<String> set = keys.get(j);
-            System.out.println("#####################");
+            //System.out.println("#####################");
             for(int k = j; k<keys.size(); k++){
                 Set<String> intersection = new HashSet<>(set);
                 intersection.retainAll(keys.get(k));
-                System.out.println(intersection.size());
+                //System.out.println(intersection.size());
                 matrix[j][k] = intersection.size();
                 matrix[k][j] = intersection.size();
             }
