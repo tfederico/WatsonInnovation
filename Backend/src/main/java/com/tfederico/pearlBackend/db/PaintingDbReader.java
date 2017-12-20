@@ -17,7 +17,7 @@ public class PaintingDbReader implements IPaintingDbReader{
     private BufferedReader br = null;
     private FileReader fileReader = null;
     private static String line = "";
-    private static String cvsSplitBy = ";";
+    private static String cvsSplitBy = "\t";
 
     public PaintingDbReader(){
         museums = new ArrayList<>();

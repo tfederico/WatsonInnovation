@@ -1,21 +1,21 @@
-museum;painter;name of the painting;Link to data base of the museum
-Rijksmuseum;Rembrandt van Rijn;Portrait of a Woman, Possibly Maria Trip;https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-C-597,3
-Rijksmuseum;Rembrandt van Rijn;Young Woman in Fantasy Costume;https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-A-4057,13
-Rijksmuseum;Rembrandt van Rijn;Landscape with a Stone Bridge;https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-A-1935,10
-Rijksmuseum;Rembrandt van Rijn;The Wardens of the Amsterdam Drapers’ Guild, Known as ‘The Syndics’;https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-C-6,5
-Rijksmuseum;Johannes Vermeer;The Milkmaid;https://www.rijksmuseum.nl/en/rijksstudio/artists/johannes-vermeer/objects#/SK-A-2344,0
-Rijksmuseum;Johannes Vermeer;Woman Reading a letter;https://www.rijksmuseum.nl/en/rijksstudio/artists/johannes-vermeer/objects#/SK-C-251,1
-Rijksmuseum;Johannes Vermeer;View of Houses in Delft, Known as ‘The Little Street’ ;https://www.rijksmuseum.nl/en/rijksstudio/artists/johannes-vermeer/objects#/SK-A-2860,2
-Rijksmuseum;Jan Havicksz Steen;The Merry Family;https://www.rijksmuseum.nl/nl/rijksstudio/kunstwerken/schilderijen/objecten#/SK-C-229,1
-Rijksmuseum;Jan Havicksz Steen;The Sick Woman;https://www.rijksmuseum.nl/en/rijksstudio/artists/jan-havicksz-steen/objects#/SK-C-230,5
-Rijksmuseum;Jan Havicksz Steen;Woman at her Toilet;https://www.rijksmuseum.nl/en/rijksstudio/artists/jan-havicksz-steen/objects#/SK-A-4052,10
-Mauritshuis;Rembrandt van Rijn;The Anatomy Lesson of Dr Nicolaes Tulp;https://www.mauritshuis.nl/en/explore/the-collection/artworks/the-anatomy-lesson-of-dr-nicolaes-tulp-146/
-Mauritshuis;Rembrandt van Rijn;Suzanna;https://www.mauritshuis.nl/en/explore/the-collection/artworks/susanna-147/
-Mauritshuis;Rembrandt van Rijn;'Tronie' of a Man with a Feathered Beret;https://www.mauritshuis.nl/en/explore/the-collection/artworks/tronie-of-a-man-with-a-feathered-beret-149/
-Mauritshuis;Johannes Vermeer;Girl with Pearl Earring;https://www.mauritshuis.nl/en/explore/the-collection/artworks/girl-with-a-pearl-earring-670/
-Mauritshuis;Johannes Vermeer;View of Delft;https://www.mauritshuis.nl/en/explore/the-collection/artworks/view-of-delft-92/
-Mauritshuis;Johannes Vermeer;Diana and her Nymphs;https://www.mauritshuis.nl/en/explore/the-collection/artworks/diana-and-her-nymphs-406/
-Mauritshuis;Jan Havicksz Steen;'As the Old Sing, So Pipe the Young';https://www.mauritshuis.nl/en/explore/the-collection/artworks/as-the-old-sing-so-pipe-the-young-169/
-Mauritshuis;Jan Havicksz Steen;The Sick Girl;https://www.mauritshuis.nl/en/explore/the-collection/artworks/the-sick-girl-167/
-Mauritshuis;Jan Havicksz Steen;The Doctor's Visit;https://www.mauritshuis.nl/en/explore/the-collection/artworks/the-doctors-visit-168/
-Mauritshuis;Jan Havicksz Steen;Girl Eating Oysters;https://www.mauritshuis.nl/en/explore/the-collection/artworks/girl-eating-oysters-818/
+museum	painter	name of the painting	Link to data base of the museum
+Rijksmuseum	Rembrandt van Rijn	Portrait of a Woman, Possibly Maria Trip	https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-C-597,3
+Rijksmuseum	Rembrandt van Rijn	Young Woman in Fantasy Costume	https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-A-4057,13
+Rijksmuseum	Rembrandt van Rijn	Landscape with a Stone Bridge	https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-A-1935,10
+Rijksmuseum	Rembrandt van Rijn	The Wardens of the Amsterdam Drapers’ Guild, Known as ‘The Syndics’	https://www.rijksmuseum.nl/en/rijksstudio/artists/rembrandt-harmensz-van-rijn/objects#/SK-C-6,5
+Rijksmuseum	Johannes Vermeer	The Milkmaid	https://www.rijksmuseum.nl/en/rijksstudio/artists/johannes-vermeer/objects#/SK-A-2344,0
+Rijksmuseum	Johannes Vermeer	Woman Reading a letter	https://www.rijksmuseum.nl/en/rijksstudio/artists/johannes-vermeer/objects#/SK-C-251,1
+Rijksmuseum	Johannes Vermeer	View of Houses in Delft, Known as ‘The Little Street’ 	https://www.rijksmuseum.nl/en/rijksstudio/artists/johannes-vermeer/objects#/SK-A-2860,2
+Rijksmuseum	Jan Havicksz Steen	The Merry Family	https://www.rijksmuseum.nl/nl/rijksstudio/kunstwerken/schilderijen/objecten#/SK-C-229,1
+Rijksmuseum	Jan Havicksz Steen	The Sick Woman	https://www.rijksmuseum.nl/en/rijksstudio/artists/jan-havicksz-steen/objects#/SK-C-230,5
+Rijksmuseum	Jan Havicksz Steen	Woman at her Toilet	https://www.rijksmuseum.nl/en/rijksstudio/artists/jan-havicksz-steen/objects#/SK-A-4052,10
+Mauritshuis	Rembrandt van Rijn	The Anatomy Lesson of Dr Nicolaes Tulp	https://www.mauritshuis.nl/en/explore/the-collection/artworks/the-anatomy-lesson-of-dr-nicolaes-tulp-146/
+Mauritshuis	Rembrandt van Rijn	Suzanna	https://www.mauritshuis.nl/en/explore/the-collection/artworks/susanna-147/
+Mauritshuis	Rembrandt van Rijn	'Tronie' of a Man with a Feathered Beret	https://www.mauritshuis.nl/en/explore/the-collection/artworks/tronie-of-a-man-with-a-feathered-beret-149/
+Mauritshuis	Johannes Vermeer	Girl with Pearl Earring	https://www.mauritshuis.nl/en/explore/the-collection/artworks/girl-with-a-pearl-earring-670/
+Mauritshuis	Johannes Vermeer	View of Delft	https://www.mauritshuis.nl/en/explore/the-collection/artworks/view-of-delft-92/
+Mauritshuis	Johannes Vermeer	Diana and her Nymphs	https://www.mauritshuis.nl/en/explore/the-collection/artworks/diana-and-her-nymphs-406/
+Mauritshuis	Jan Havicksz Steen	'As the Old Sing, So Pipe the Young'	https://www.mauritshuis.nl/en/explore/the-collection/artworks/as-the-old-sing-so-pipe-the-young-169/
+Mauritshuis	Jan Havicksz Steen	The Sick Girl	https://www.mauritshuis.nl/en/explore/the-collection/artworks/the-sick-girl-167/
+Mauritshuis	Jan Havicksz Steen	The Doctor's Visit	https://www.mauritshuis.nl/en/explore/the-collection/artworks/the-doctors-visit-168/
+Mauritshuis	Jan Havicksz Steen	Girl Eating Oysters	https://www.mauritshuis.nl/en/explore/the-collection/artworks/girl-eating-oysters-818/
