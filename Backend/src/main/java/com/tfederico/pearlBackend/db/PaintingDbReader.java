@@ -25,11 +25,13 @@ public class PaintingDbReader implements IPaintingDbReader{
         paintings = new ArrayList<>();
     }
 
+    @Override
     public void openDatabase() throws FileNotFoundException {
 
         fileReader = new FileReader(csvFile);
     }
 
+    @Override
     public void readDatabase() throws IOException {
 
 
@@ -64,6 +66,11 @@ public class PaintingDbReader implements IPaintingDbReader{
     @Override
     public ArrayList<String> getMuseums() {
         return museums;
+    }
+
+    @Override
+    public void closeDatabase() throws IOException {
+        fileReader.close();
     }
 
 

@@ -4,17 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public interface IPaintingDbReader {
+public interface IQueryDBReader {
 
     void readDatabase() throws IOException;
 
-    ArrayList<String> getPaintings();
-
-    ArrayList<String> getAuthors();
-
-    ArrayList<String> getMuseums();
+    ArrayList<String> getQueries();
 
     void openDatabase() throws FileNotFoundException;
 
     void closeDatabase() throws IOException;
+
+    ArrayList<String> getQueriesIds();
 }

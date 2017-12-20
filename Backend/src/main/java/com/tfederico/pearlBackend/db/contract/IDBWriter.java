@@ -1,5 +1,7 @@
 package com.tfederico.pearlBackend.db.contract;
 
+import com.ibm.watson.developer_cloud.discovery.v1.model.QueryResult;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,4 +19,6 @@ public interface IDBWriter {
     void createSmartDB(ArrayList<String> paintings, ArrayList<String> creator,
                        ArrayList<String> descriptions, ArrayList<String> thumbnailsURL,
                        ArrayList<String> museums, ArrayList<String> keywords) throws FileNotFoundException;
+
+    void saveQueryResults(String queryId, List<QueryResult> queryResults) throws FileNotFoundException;
 }

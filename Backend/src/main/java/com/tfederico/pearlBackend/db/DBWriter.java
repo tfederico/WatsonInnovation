@@ -1,5 +1,6 @@
 package com.tfederico.pearlBackend.db;
 
+import com.ibm.watson.developer_cloud.discovery.v1.model.QueryResult;
 import com.tfederico.pearlBackend.db.contract.IDBWriter;
 
 import java.io.File;
@@ -102,6 +103,34 @@ public class DBWriter implements IDBWriter {
             sb.append(museums.get(i));
             sb.append(divider);
             sb.append(keywords.get(i));
+            sb.append("\n");
+        }
+
+        pw.write(sb.toString());
+        pw.close();
+    }
+
+    @Override
+    public void saveQueryResults(String queryId, List<QueryResult> queryResults) throws FileNotFoundException {
+        String divider = "\t";
+        String header = "score"+divider+"painting"+divider+"author"+divider+"description"+divider+
+                "thumbnailURL"+divider+"museum\n";
+        PrintWriter pw = new PrintWriter(new File("res/queriesResults/query_"+queryId+".csv"));
+        StringBuilder sb = new StringBuilder();
+        sb.append(header);
+
+        for(QueryResult q : queryResults){
+            sb.append(q.getResultMetadata().getScore());
+            sb.append(divider);
+            sb.append(q.get("painting"));
+            sb.append(divider);
+            sb.append(q.get("author"));
+            sb.append(divider);
+            sb.append(q.get("description"));
+            sb.append(divider);
+            sb.append(q.get("thumbnailURL"));
+            sb.append(divider);
+            sb.append(q.get("museum"));
             sb.append("\n");
         }
 

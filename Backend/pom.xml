@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.github.tfederico</groupId>
             <artifactId>libris</artifactId>
-            <version>v2.3.1-beta</version>
+            <version>v2.3.2-beta</version>
         </dependency>
 
     </dependencies>
