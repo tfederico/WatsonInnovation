@@ -10,3 +10,4 @@ Backend/res/images/
 Backend/credentials.csv
 Backend/out/artifacts/*
 Backend/res/json/*
+Backend/res/queriesResults
