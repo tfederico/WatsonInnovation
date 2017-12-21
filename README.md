@@ -11,7 +11,7 @@ In order to use this code, the following requirements must be satisfied:
 ## How to use
 Currently, Pearl does not have an user interface. Consequently, it is possible to explore its features with `.jar` file with command lines options.
 
-Firstly, you need to download all the files from the following link: []
+Firstly, you need to download all the files from the following [link](https://drive.google.com/open?id=1jtgfIBS0Bj9-vOkLxVpXzBW6EnFxHj5i)
 
 Secondly, you need to open the `config.csv` file and insert there the credentials (separated from their identifier by one `tab`) for the following services:
 
