@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
-Class-Path: okhttp-urlconnection-3.8.0.jar speech-to-text-4.1.0.jar ok
- http-3.8.0.jar commons-io-2.3.jar alchemy-4.1.0.jar document-conversi
- on-4.1.0.jar commons-codec-1.5.jar tradeoff-analytics-4.1.0.jar jerse
- y-jsr166e-2.25.1.jar logging-interceptor-3.8.0.jar okio-1.13.0.jar gs
- on-2.2.3.jar libris-v2.3.1-beta.jar java-sdk-4.1.0.jar commons-loggin
- g-1.1.2.jar commons-lang3-3.5.jar personality-insights-4.1.0.jar lang
- uage-translator-4.1.0.jar jsoup-1.10.2.jar log4j-1.2.12.jar bcprov-jd
- k15on-1.56.jar java-websocket-1.3.3.jar retrieve-and-rank-4.1.0.jar d
- iscovery-4.1.0.jar natural-language-classifier-4.1.0.jar conversation
- -4.1.0.jar europeana-client-V0.3.2-beta.jar core-4.1.0.jar visual-rec
- ognition-4.1.0.jar natural-language-understanding-4.1.0.jar text-to-s
- peech-4.1.0.jar tone-analyzer-4.1.0.jar commons-httpclient-3.1.jar
+Class-Path: okio-1.13.0.jar alchemy-4.1.0.jar core-4.1.0.jar europeana
+ -client-V0.3.2-beta.jar commons-httpclient-3.1.jar commons-io-2.3.jar
+  jsoup-1.10.2.jar okhttp-urlconnection-3.8.0.jar discovery-4.1.0.jar 
+ natural-language-classifier-4.1.0.jar jersey-jsr166e-2.25.1.jar speec
+ h-to-text-4.1.0.jar document-conversion-4.1.0.jar bcprov-jdk15on-1.56
+ .jar retrieve-and-rank-4.1.0.jar visual-recognition-4.1.0.jar text-to
+ -speech-4.1.0.jar personality-insights-4.1.0.jar java-websocket-1.3.3
+ .jar libris-v2.3.3-beta.jar log4j-1.2.12.jar conversation-4.1.0.jar n
+ atural-language-understanding-4.1.0.jar tradeoff-analytics-4.1.0.jar 
+ logging-interceptor-3.8.0.jar gson-2.2.3.jar tone-analyzer-4.1.0.jar 
+ language-translator-4.1.0.jar commons-lang3-3.5.jar java-sdk-4.1.0.ja
+ r okhttp-3.8.0.jar commons-codec-1.5.jar commons-logging-1.1.2.jar
 Main-Class: com.tfederico.pearlBackend.Main
 

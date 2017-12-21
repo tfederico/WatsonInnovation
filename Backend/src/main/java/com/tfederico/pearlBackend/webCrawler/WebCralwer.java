@@ -51,27 +51,30 @@ public class WebCralwer implements IWebCrawler {
         ArrayList<String> secondaryKeywords = new ArrayList<>();
         secondaryKeywords.addAll(Arrays.asList(painter.split(" ")));
 
-        InputStream d = downloadImages(30, painting, secondaryKeywords);
-        BufferedReader br = new BufferedReader(new InputStreamReader(d));
+        BufferedReader br;
         String line;
+        InputStream d;
+        d = downloadImages(30, painting, secondaryKeywords);
+        br = new BufferedReader(new InputStreamReader(d));
+
 
         while((line = br.readLine()) != null){
             System.out.println(line);
         }
 
         d = filterImages(painting);
-        /*br = new BufferedReader(new InputStreamReader(d));
+        br = new BufferedReader(new InputStreamReader(d));
 
         while((line = br.readLine()) != null){
             System.out.println(line);
-        }*/
+        }
 
         d = resizeImages(painting);
-        /*br = new BufferedReader(new InputStreamReader(d));
+        br = new BufferedReader(new InputStreamReader(d));
 
         while((line = br.readLine()) != null){
             System.out.println(line);
-        }*/
+        }
     }
 
     private InputStream filterImages(String dirName) throws IOException {

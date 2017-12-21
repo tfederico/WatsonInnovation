@@ -14,7 +14,8 @@ if __name__ == '__main__':
     removed = 0
     for f in onlyfiles:
         size = os.path.getsize(join(directory, f))
-        if size > 5000000 or size < 1000:
+        ext = f.split('.')[1]
+        if size > 5000000 or size < 1000 or (ext != "jpg" and ext != "png"):
             os.remove(join(directory, f))
             removed = removed + 1
     print("Number of file removed: "+str(removed))

@@ -5,6 +5,7 @@ import com.tfederico.pearlBackend.db.contract.IDBWriter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,33 +37,29 @@ public class DBWriter implements IDBWriter {
     }
 
     @Override
-    public void saveBenchmark(ArrayList<String> paintings, ArrayList<Integer> score) throws FileNotFoundException {
+    public void saveBenchmark(String painting, int score) throws FileNotFoundException {
+
+        //todo add check if the file exists, if no create and add header
         String divider = "\t";
-        PrintWriter pos = new PrintWriter(new File("res/benchmark.csv"));
+        PrintWriter pos = new PrintWriter(new FileOutputStream(new File("res/benchmark.csv"),true));
         StringBuilder sPos = new StringBuilder();
-        sPos.append("Painting").append(divider).append("Correct predictions over a set of 5\n");
 
-        for(int i = 0; i < paintings.size(); i++){
-            sPos.append(paintings.get(i));
-            sPos.append(divider);
-            sPos.append(score.get(i));
-            sPos.append("\n");
-        }
+        sPos.append(painting).append(divider).append(score).append("\n");
 
-        pos.write(sPos.toString());
+        pos.append(sPos.toString());
 
         pos.close();
     }
 
     @Override
     public void saveWrongPredictions(ArrayList<String> predictions) throws FileNotFoundException {
+
+        //todo add check if the file exists, if no create and add header
         String divider = "\t";
 
-        PrintWriter pw = new PrintWriter(new File("res/wrongPredictions.csv"));
+        PrintWriter pw = new PrintWriter(new FileOutputStream(new File("res/wrongPredictions.csv"),true));
 
         StringBuilder sb = new StringBuilder();
-
-        sb.append("Real").append(divider).append("Predicted\n");
 
         for(String s : predictions){
             sb.append(s.split("_")[0]);
@@ -72,7 +69,7 @@ public class DBWriter implements IDBWriter {
 
         }
 
-        pw.write(sb.toString());
+        pw.append(sb.toString());
         pw.close();
     }
 

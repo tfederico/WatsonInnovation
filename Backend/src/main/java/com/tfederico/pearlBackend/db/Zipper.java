@@ -12,7 +12,7 @@ import java.util.zip.ZipOutputStream;
 public class Zipper implements IZipper {
     @Override
     public void addToZipFile(String fileName, ZipOutputStream zos) throws FileNotFoundException, IOException {
-        System.out.println("Writing '" + fileName + "' to zip file");
+        //System.out.println("Writing '" + fileName + "' to zip file");
 
         File file = new File(fileName);
         FileInputStream fis = new FileInputStream(file);

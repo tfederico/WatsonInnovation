@@ -9,12 +9,11 @@
 import time       #Importing the time library to check the time of code execution
 import sys    #Importing the System Library
 import os
+import urllib2
 import json
 import argparse
-from urllib.error import HTTPError
-from urllib.error import URLError
-from urllib.request import Request
-from urllib.request import urlopen
+from urllib2 import Request,urlopen
+from urllib2 import URLError, HTTPError
 
 pause = 0
 
@@ -24,7 +23,6 @@ def download_page(url):
     cur_version = sys.version_info
     if cur_version >= version:     #If the Current Version of Python is 3.0 or above
         import urllib.request    #urllib library for Extracting web pages
-
         try:
             headers = {}
             headers['User-Agent'] = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
@@ -34,6 +32,18 @@ def download_page(url):
             return respData
         except Exception as e:
             print(str(e))
+    else:                        #If the Current Version of Python is 2.x
+        import urllib2
+        try:
+            headers = {}
+            headers['User-Agent'] = "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17"
+            req = urllib2.Request(url, headers = headers)
+            response = urllib2.urlopen(req)
+            page = response.read()
+            return page
+        except:
+            return"Page Not found"
+
 
 #Finding 'Next Image' from the given raw page
 def _images_get_next_item(s):
@@ -165,6 +175,7 @@ if __name__ == '__main__':
 
                 if "jpeg" in ext or "JPEG" in ext: 
                     ext = "jpg"
+                
                 ext = ext.strip()
                 output_file = open("res/images/"+search_keywords.replace(' ','_')+"/"+str(l+1)+"."+ext,'wb')
                 
@@ -184,20 +195,24 @@ if __name__ == '__main__':
                 errorCount+=1
                 print("IOError on image "+str(l+1))
                 k=k+1
-                l=l-1
+                if(l > 0):
+                    l=l-1
 
             except HTTPError as e:  #If there is any HTTPError
 
                 errorCount+=1
                 print("HTTPError"+str(k))
                 k=k+1
-                l=l-1
+                if(l > 0):
+                    l=l-1
+
             except URLError as e:
 
                 errorCount+=1
                 print("URLError "+str(k))
                 k=k+1
-                l=l+1
+                if(l > 0):
+                    l=l-1
 
         i = i+1
 

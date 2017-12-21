@@ -1,6 +1,8 @@
 package com.tfederico.pearlBackend;
 
 import com.ibm.watson.developer_cloud.discovery.v1.model.QueryResult;
+import com.ibm.watson.developer_cloud.visual_recognition.v3.model.Classifier;
+import com.tfederico.libris.image.ibm.contract.IIBMCustomClassifierUtility;
 import com.tfederico.libris.image.ibm.visualRecognition.IBMCustomClassifierUtility;
 import com.tfederico.libris.text.discovery.ibm.IBMDiscoveryUtility;
 import com.tfederico.libris.text.naturalLanguageUnderstanding.ibm.IBMNaturalLanguageUnderstandingUtility;
@@ -33,74 +35,141 @@ public class Main {
     public static void main(String[] args) throws IOException, UnknownMuseumException, EuropeanaApiProblem {
 
         setCredentials("credentials.csv");
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you want to train (t) or benchmark (b)?");
+        String trainingOrBenchmarking = scanner.next().toLowerCase();
         long start = System.currentTimeMillis();
 
-        //pre-existing data
-        IPaintingDbReader paintingDbReader = new PaintingDbReader();
-        paintingDbReader.openDatabase();
-        paintingDbReader.readDatabase();
-        ArrayList<String> paintings = paintingDbReader.getPaintings();
-        ArrayList<String> painters = paintingDbReader.getAuthors();
-        ArrayList<String> museums = paintingDbReader.getMuseums();
-        paintingDbReader.closeDatabase();
-
-        //data to retrieve from europeana
-        ArrayList<String> descriptions = new ArrayList<>();
-        ArrayList<String> creator = new ArrayList<>(); //problems with europeana
-        ArrayList<String> thumbnailsURL = new ArrayList<>();
+        if(trainingOrBenchmarking.equals("t") || trainingOrBenchmarking.equals("train")){
 
 
-        IEuropeanaUtility europeanaUtility = new EuropeanaUtility();
-        IWebCrawler webCrawler = new WebCralwer();
+            System.out.println("Do you want to delete pre-existing models? (y/n)");
+            String delete = scanner.next().toLowerCase();
 
-        System.out.println("################ DOWNLOADING IMAGES ################");
-        for(int i = 0; i < paintings.size(); i++){
-            System.out.println("########### PAINTING "+i+"/"+paintings.size()+" ##########");
-            europeanaUtility.callEuropeana(museums.get(i), paintings.get(i), descriptions,
-                    creator, thumbnailsURL);
-            webCrawler.download(painters.get(i), paintings.get(i));
+            if(delete.equals("y")){
+                System.out.println("Deleting models...");
+                IIBMCustomClassifierUtility cu = new IBMCustomClassifierUtility();
+                List<Classifier> classifierList = cu.getClassifiersList();
+
+                if(cu.getClassifiersList().size() != 0){
+                    for(Classifier c : classifierList){
+                        cu.deleteClassifier(c.getClassifierId());
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            //pre-existing data
+            IPaintingDbReader paintingDbReader = new PaintingDbReader();
+            paintingDbReader.openDatabase();
+            paintingDbReader.readDatabase();
+            ArrayList<String> paintings = paintingDbReader.getPaintings();
+            ArrayList<String> painters = paintingDbReader.getAuthors();
+            ArrayList<String> museums = paintingDbReader.getMuseums();
+            paintingDbReader.closeDatabase();
+
+            //data to retrieve from europeana
+            ArrayList<String> descriptions = new ArrayList<>();
+            ArrayList<String> creator = new ArrayList<>(); //problems with europeana
+            ArrayList<String> thumbnailsURL = new ArrayList<>();
+
+
+            IEuropeanaUtility europeanaUtility = new EuropeanaUtility();
+            IWebCrawler webCrawler = new WebCralwer();
+
+            System.out.println("################ DOWNLOADING IMAGES ################");
+            for(int i = 0; i < paintings.size(); i++){
+                System.out.println("########### PAINTING "+(i+1)+"/"+paintings.size()+" ##########");
+                europeanaUtility.callEuropeana(museums.get(i), paintings.get(i), descriptions,
+                        creator, thumbnailsURL);
+                webCrawler.download(painters.get(i), paintings.get(i));
+            }
+
+            System.out.println("################ MODELS TRAINING ################");
+            IModelTrainer modelTrainer = new ModelTrainer();
+            modelTrainer.trainModels(paintings);
+
+            ArrayList<String> keyword;
+            IDBWriter dbWriter = new DBWriter();
+            System.out.println("################ EXTRACTING KEYWORDS ################");
+            INLUUtility nluUtility = new NLUUtility();
+
+            keyword = nluUtility.getKeywordsFromTexts(descriptions);
+
+            System.out.println("################ SMARTDB BUILDING ################");
+
+            dbWriter.createSmartDB(paintings, painters, descriptions, thumbnailsURL, museums, keyword);
+            Runtime.getRuntime().exec("python3 toJSON.py");
+
+            System.out.println("################ CALCULATING SIMILARITY ################");
+            calculateIntersection("res/smartdb.csv");
+        }
+        else{
+
+            System.out.println("Select the service: discovery (d), visual recognition (vr) or both (b):");
+
+            String service = scanner.next().toLowerCase();
+
+            if(service.equals("b") || service.equals("both") || service.equals("d") || service.equals("discovery")){
+                System.out.println("################ QUERYING DISCOVERY ################");
+                IQueryDBReader queryDBReader = new QueryDBReader();
+                queryDBReader.openDatabase();
+                queryDBReader.readDatabase();
+                ArrayList<String> queries = queryDBReader.getQueries();
+                ArrayList<String> queriesIds = queryDBReader.getQueriesIds();
+
+                queryDBReader.closeDatabase();
+
+                IDiscoveryUtility discoveryUtility = new DiscoveryUtility();
+                IDBWriter dbWriter = new DBWriter();
+                for(int i = 0; i < queriesIds.size(); i++){
+                    List<QueryResult> results = discoveryUtility.naturalLanguageQuery(queries.get(i));
+                    dbWriter.saveQueryResults(queriesIds.get(i),results);
+                }
+            }
+
+            if(service.equals("b") || service.equals("both") || service.equals("vr") || service.equals("visual recognition")){
+                IIBMCustomClassifierUtility u = new IBMCustomClassifierUtility();
+                int notReady = 0;
+                for (Classifier c : u.getClassifiersList()){
+                    if(c.getStatus().equals("training"))
+                        notReady++;
+                }
+
+                String goOn = "yes";
+
+                while(goOn.equals("yes") || goOn.equals("y")){
+                    if(notReady != 0){
+                        System.out.println("I am not ready to classify images. There are still "+notReady+" classifiers training");
+                        goOn = "no";
+                    }
+                    else{
+                        System.out.println("################ BENCHMARKING ################");
+                        IBenchmarker benchmarker = new Benchmarker();
+                        benchmarker.benchmark("res/benchmark/");
+                        System.out.println("Do you wish to benchmark another collection of images? (y/n)");
+                        goOn = scanner.next();
+                    }
+                }
+            }
+
+
+            System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
+
         }
 
-        System.out.println("################ MODELS TRAINING ################");
-        IModelTrainer modelTrainer = new ModelTrainer();
-        modelTrainer.trainModels(paintings);
-
-        ArrayList<String> keyword;
-        IDBWriter dbWriter = new DBWriter();
-        System.out.println("################ EXTRACTING KEYWORDS ################");
-        INLUUtility nluUtility = new NLUUtility();
-
-        keyword = nluUtility.getKeywordsFromTexts(descriptions);
-
-        System.out.println("################ SMARTDB BUILDING ################");
-
-        dbWriter.createSmartDB(paintings, painters, descriptions, thumbnailsURL, museums, keyword);
-        Runtime.getRuntime().exec("python3 toJSON.py");
-
-        System.out.println("################ QUERYING DISCOVERY ################");
-        IQueryDBReader queryDBReader = new QueryDBReader();
-        queryDBReader.openDatabase();
-        queryDBReader.readDatabase();
-        ArrayList<String> queries = queryDBReader.getQueries();
-        ArrayList<String> queriesIds = queryDBReader.getQueriesIds();
-
-        queryDBReader.closeDatabase();
-
-        IDiscoveryUtility discoveryUtility = new DiscoveryUtility();
-
-        for(int i = 0; i < queriesIds.size(); i++){
-            List<QueryResult> results = discoveryUtility.naturalLanguageQuery(queries.get(i));
-            dbWriter.saveQueryResults(queriesIds.get(i),results);
-        }
 
 
-        System.out.println("################ CALCULATING SIMILARITY ################");
-        calculateIntersection("res/smartdb.csv");
-
-        System.out.println("################ BENCHMARKING ################");
-        IBenchmarker benchmarker = new Benchmarker();
-        benchmarker.benchmark("res/benchmark/");
-        System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
 
     }
 

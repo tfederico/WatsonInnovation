@@ -12,7 +12,7 @@ public interface IDBWriter {
     void saveItemSimilarities(ArrayList<String> paintings, Integer[][] matrix,
                               List<Set<String>> keys) throws FileNotFoundException;
 
-    void saveBenchmark(ArrayList<String> paintings, ArrayList<Integer> score) throws FileNotFoundException;
+    void saveBenchmark(String paintings, int score) throws FileNotFoundException;
 
     void saveWrongPredictions(ArrayList<String> predictions) throws FileNotFoundException;
 
