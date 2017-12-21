@@ -15,7 +15,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+
 public class Benchmarker implements IBenchmarker {
+
+    /**
+     * Method used to evaluate the goodness of the classifiers
+     * @param path path to the folder containing the images that have to be classified
+     * @throws IOException
+     */
     @Override
     public void benchmark(String path) throws IOException {
 

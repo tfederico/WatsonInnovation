@@ -30,11 +30,25 @@ public class WebCralwer implements IWebCrawler {
     }
 
 
+    /**
+     * Method used to download images from google
+     * @param imagesNumber number of images (for each keyword) that will be downloaded
+     * @param paintingName name of the painting
+     * @param keywords additional keywords
+     * @return an input stream connected to the python script used to download the images
+     * @throws IOException
+     */
     private InputStream downloadImages(int imagesNumber, String paintingName, ArrayList<String> keywords) throws IOException {
         return imageDownloader.downloadImages(imagesNumber, paintingName, keywords);
     }
 
 
+    /**
+     * Method used to resize the downloaded images
+     * @param dirName directory containing the images
+     * @return an input stream connected to the python script used to resize the images
+     * @throws IOException
+     */
     private InputStream resizeImages(String dirName) throws IOException {
         return imageResizer.resizeImages(dirName);
     }
@@ -77,6 +91,12 @@ public class WebCralwer implements IWebCrawler {
         }
     }
 
+    /**
+     * Method used to filter the downloaded images
+     * @param dirName name of the directory containing the images
+     * @return an input stream connected to the python script used to filter the images
+     * @throws IOException
+     */
     private InputStream filterImages(String dirName) throws IOException {
         return imageFilterer.filterImages(dirName);
     }

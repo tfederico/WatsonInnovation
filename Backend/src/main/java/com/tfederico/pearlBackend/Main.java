@@ -167,10 +167,6 @@ public class Main {
             System.out.println("Required time: "+(System.currentTimeMillis()-start)+" ms");
 
         }
-
-
-
-
     }
 
     /**

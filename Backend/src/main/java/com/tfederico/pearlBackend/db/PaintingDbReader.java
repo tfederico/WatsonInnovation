@@ -25,12 +25,20 @@ public class PaintingDbReader implements IPaintingDbReader{
         paintings = new ArrayList<>();
     }
 
+    /**
+     * Method used to open the csv file used as database
+     * @throws FileNotFoundException
+     */
     @Override
     public void openDatabase() throws FileNotFoundException {
 
         fileReader = new FileReader(csvFile);
     }
 
+    /**
+     * Method used to read the data contained in the database
+     * @throws IOException
+     */
     @Override
     public void readDatabase() throws IOException {
 
@@ -53,21 +61,37 @@ public class PaintingDbReader implements IPaintingDbReader{
         paintings.remove(0);
     }
 
+    /**
+     * Method used to retrieve the name of the paintings in the database
+     * @return list of paintings names
+     */
     @Override
     public ArrayList<String> getPaintings() {
         return paintings;
     }
 
+    /**
+     * Method used to retrieve the name of the authors in the database
+     * @return list of authors' names
+     */
     @Override
     public ArrayList<String> getAuthors() {
         return painters;
     }
 
+    /**
+     * Method used to retrieve the name of the museums in the database
+     * @return list of museums names
+     */
     @Override
     public ArrayList<String> getMuseums() {
         return museums;
     }
 
+    /**
+     * Method used to open the csv file used as database
+     * @throws FileNotFoundException
+     */
     @Override
     public void closeDatabase() throws IOException {
         fileReader.close();

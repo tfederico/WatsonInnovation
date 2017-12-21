@@ -4,5 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface IModelTrainer {
-    public void trainModels(ArrayList<String> paintings) throws IOException;
+
+    /**
+     * Method used to train multiple model on watson visual recognition, using
+     * the paintings name to retrieve the files
+     * @param paintings list of paintings names
+     * @throws IOException
+     */
+    void trainModels(ArrayList<String> paintings) throws IOException;
 }

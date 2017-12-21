@@ -17,6 +17,11 @@ public class NLUUtility implements INLUUtility{
         nlu = new IBMNaturalLanguageUnderstandingUtility();
     }
 
+    /**
+     * Method used to extract keywords from a piece of text using watson natural language discovery
+     * @param texts list of textx
+     * @return list of keywords
+     */
     @Override
     public ArrayList<String> getKeywordsFromTexts(ArrayList<String> texts) {
         ArrayList<String> keyword = new ArrayList<>(texts.size());

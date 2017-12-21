@@ -3,6 +3,9 @@ package com.tfederico.pearlBackend.europeana.contract;
 
 import eu.europeana.api.client.search.query.Api2Query;
 
+/**
+ * class used to build a query
+ */
 public interface IQueryBuilder {
 
     void createNewQuery();

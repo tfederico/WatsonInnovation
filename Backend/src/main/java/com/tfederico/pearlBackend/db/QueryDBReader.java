@@ -23,6 +23,11 @@ public class QueryDBReader implements IQueryDBReader {
         queries = new ArrayList<>();
         queriesIds = new ArrayList<>();
     }
+
+    /**
+     * Method used to read the data contained in the database
+     * @throws IOException
+     */
     @Override
     public void readDatabase() throws IOException {
         br = new BufferedReader(fileReader);
@@ -41,21 +46,37 @@ public class QueryDBReader implements IQueryDBReader {
         queriesIds.remove(0);
     }
 
+    /**
+     * Method used to retrieve the queries in the database
+     * @return list of queries
+     */
     @Override
     public ArrayList<String> getQueries() {
         return queries;
     }
 
+    /**
+     * Method used to retrieve the unique identifiers of the queries in the database
+     * @return list of unique identifiers
+     */
     @Override
     public ArrayList<String> getQueriesIds() {
         return queriesIds;
     }
 
+    /**
+     * Method used to open the file used as database
+     * @throws FileNotFoundException
+     */
     @Override
     public void openDatabase() throws FileNotFoundException {
         fileReader = new FileReader(csvFile);
     }
 
+    /**
+     * Method used to close the file used as database
+     * @throws FileNotFoundException
+     */
     @Override
     public void closeDatabase() throws IOException {
         fileReader.close();

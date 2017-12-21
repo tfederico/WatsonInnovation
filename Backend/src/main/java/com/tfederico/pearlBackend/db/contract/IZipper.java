@@ -5,5 +5,12 @@ import java.io.IOException;
 import java.util.zip.ZipOutputStream;
 
 public interface IZipper {
-    void addToZipFile(String fileName, ZipOutputStream zos) throws FileNotFoundException, IOException;
+    /**
+     * Method used to add a file to a zip
+     * @param fileName name of the file to add
+     * @param zos object used to write files in a zip
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    void addToZipFile(String fileName, ZipOutputStream zos) throws IOException;
 }

@@ -24,6 +24,12 @@ public class ModelTrainer implements IModelTrainer{
         zipper = new Zipper();
     }
 
+    /**
+     * Method used to train multiple model on watson visual recognition, using
+     * the paintings name to retrieve the files
+     * @param paintings list of paintings names
+     * @throws IOException
+     */
     @Override
     public void trainModels(ArrayList<String> paintings) throws IOException {
         HashMap<String, String> negativeSamplesPerPaint = new HashMap<>();
