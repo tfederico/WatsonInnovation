@@ -29,5 +29,7 @@ During the training process, the application will save all the information about
 If you want to perform a benchmark of Discovery, you can do it by checking how the service performs answering the queries contained in the `res/queries.csv` file, checking the answer provided in the folder `queriesResults`.
 On the other hand, if you want to benchmark the Visual Recognition service, you can choose via console the subfolder contained in `res/benchmark/` that holds the images to classify.
 
-Have fun!
+
+
+*Have fun!*
 
