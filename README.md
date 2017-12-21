@@ -27,7 +27,7 @@ Once it is running, the console will ask you if you want to perform a training o
 During the training process, the application will save all the information about paintings in the `res/smartdb.csv` file and all the images downloaded from Google in the `images/` directory. Finally, in the `json/` folder there will be all the informations related to the painings saved in `json` format, ready to be processed by Watson Discovery (reminder: due to API limitations, the files need to be uploaded manually).
 
 If you want to perform a benchmark of Discovery, you can do it by checking how the service performs answering the queries contained in the `res/queries.csv` file, checking the answer provided in the folder `queriesResults`.
-On the other hand, if you want to benchmark the Visual Recognition service, you can choose via console the subfolder contained in `res/benchmark/` that holds the images to classify.
+On the other hand, if you want to benchmark the Visual Recognition service, you can choose via console the subfolder contained in `res/benchmark/` that holds the images to classify. The Visual Recognition results are saved in the `res/benchmark.csv` and `res/wrongPredictions.csv` files.
 
 
 
